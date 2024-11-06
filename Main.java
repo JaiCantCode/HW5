@@ -289,7 +289,6 @@ public class Main {
         // have been a cycle causing a rehashing and growth of the map.
         // We instantiated the map object above with 10, it should still
         // be that size.
-
         if ( table.mapSize() != 10 ) {
             cuckooFailure = true;
             System.out.println("Error 16: Test Failure);");
@@ -298,7 +297,6 @@ public class Main {
 
         // The following insert will result in a cycle and rehashing
         // The new resized map based in implementation should then be 43
-
         table.put("C", "HH");
         table.put("S", "XX");
 

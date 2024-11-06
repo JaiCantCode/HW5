@@ -250,6 +250,22 @@ public class CuckooHash<K, V> {
 		// Also make sure you read this method's prologue above, it should help
 		// you. Especially the two HINTS in the prologue.
 
+		Bucket<K,V> curBkt = new Bucket<>(key, value);
+		int nextHashPos = hash1(curBkt.bucKey);
+		Bucket<K,V> nxtBkt = table[nextHashPos];
+
+		for(int i = 0; i < CAPACITY; i++) {
+
+			if(nxtBkt != null && nxtBkt.getValue().equals(curBkt.value)) return;
+			table[nextHashPos] = curBkt;
+			if(nxtBkt == null) return;
+
+			nextHashPos = nextHashPos == hash1(nxtBkt.bucKey) ? hash2(nxtBkt.bucKey) : hash1(nxtBkt.bucKey);
+			curBkt = nxtBkt;
+			nxtBkt = table[nextHashPos];
+		}
+		rehash();
+		put(curBkt.bucKey, curBkt.value);
 		return;
 	}
 

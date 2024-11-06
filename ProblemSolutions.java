@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Jai Fischer / COMP 272 001
  *
  *   This java file contains the problem solutions of isSubSet, findKthLargest,
  *   and sort2Arrays methods. You should utilize the Java Collection Framework for
@@ -33,8 +33,10 @@ class ProblemSolutions {
     public boolean isSubset(int list1[], int list2[]) {
 
         // ADD YOU CODE HERE -- DON'T FORGET TO ADD YOR NAME AT TOP OF FILE
-
-        return false;
+        Hashtable<Integer, Integer> h = new Hashtable<Integer, Integer>();
+        for(int i : list1){h.put(i, 0);}
+        for(int i : list2){if(!h.containsKey(i)) return false;}
+        return true;
     }
 
 
@@ -52,10 +54,9 @@ class ProblemSolutions {
      */
 
     public int findKthLargest(int[] array, int k) {
-
         // ADD YOUR CODE HERE
-
-        return 0;
+        Arrays.sort(array);
+        return array[array.length-k];
     }
 
 
@@ -75,8 +76,24 @@ class ProblemSolutions {
     public int[] sort2Arrays(int[] array1, int[] array2) {
 
         // ADD YOU CODE HERE
-
-        return null;
+        int m = array1.length+array2.length;
+        Comparator<Integer> ascending = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if(o1 == o2) return 0;
+                return o1 > o2 ? 1 : -1;
+            }
+        };
+        PriorityQueue<Integer> s = new PriorityQueue<>(ascending);
+        for (int i = 0; i < m; i++) {
+            if(i >= array1.length && !s.contains(array2[i-array1.length])) s.add(array2[i-array1.length]);
+            else s.add(array1[i]);
+        }
+        int[] arr = new int[s.size()];
+        for(int i = 0; i < arr.length; i++){
+            if(!s.isEmpty()) arr[i] = s.poll();
+        }
+        return arr;
     }
 
 }
